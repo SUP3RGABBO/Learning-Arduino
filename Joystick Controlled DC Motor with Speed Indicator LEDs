@@ -1,0 +1,126 @@
+Joystick Controlled DC Motor with Speed Indicator LEDs
+
+This project uses a joystick to control a DC motor and three LEDs as a speed indicator.  
+The motor speed is mapped from the joystick X-axis, while the LEDs show low, medium, or high speed.
+
+This project helps beginners learn:
+- Reading analog joystick input  
+- Controlling DC motor direction and speed with PWM  
+- Using LEDs as indicators for speed levels  
+- Using `Serial.print()` for debugging  
+
+---
+
+Arduino Code
+
+```cpp
+// JOYSTICK
+int xPin = A0;
+int yPin = A1;
+int sPin = 2;
+int xVal;
+int yVal;
+int sVal;
+
+// DC MOTOR
+int speedPin = 5;
+int dir1 = 4;
+int dir2 = 3;
+int speed;
+
+// LED
+int redLed = 11;
+int yellowLed = 9;
+int greenLed = 6;
+int bright = 200;
+int dt = 200;
+
+void setup() {
+  // JOYSTICK
+  pinMode(xPin, INPUT);
+  pinMode(yPin, INPUT);
+  pinMode(sPin, INPUT);
+  digitalWrite(sPin, HIGH); // Enable internal pull-up
+  Serial.begin(9600);
+
+  // DC MOTOR
+  pinMode(dir1, OUTPUT);
+  pinMode(dir2, OUTPUT);
+  pinMode(speedPin, OUTPUT);
+
+  // LED
+  pinMode(redLed, OUTPUT);
+  pinMode(yellowLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+}
+
+void loop() {
+  // Set motor direction
+  digitalWrite(dir1, HIGH);
+  digitalWrite(dir2, LOW);
+
+  // Read joystick X-axis
+  xVal = analogRead(xPin);
+  speed = (255.0 / 1023.0) * xVal;
+  Serial.println(speed);
+  delay(dt);
+
+  // Control motor speed
+  analogWrite(speedPin, speed);
+
+  // LED indicators
+  if (speed < 100) {
+    analogWrite(redLed, bright);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(yellowLed, LOW);
+  } else if (speed >= 100 && speed < 180) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(greenLed, LOW);
+    analogWrite(yellowLed, bright);
+  } else if (speed >= 180) {
+    digitalWrite(redLed, LOW);
+    analogWrite(greenLed, bright);
+    digitalWrite(yellowLed, LOW);
+  }
+}
+```
+
+---
+
+Circuit Setup
+
+**Components needed:**
+- Arduino Uno (or compatible board)  
+- 1 × Joystick module  
+- 1 × DC motor with motor driver (L298N, L293D, or similar)  
+- 3 × LEDs (red, yellow, green)  
+- 3 × 220Ω resistors  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. **Joystick**  
+   - X-axis → A0  
+   - Y-axis → A1  
+   - Switch → pin 2  
+   - VCC → 5V, GND → GND  
+
+2. DC Motor  
+   - Connect motor driver inputs to pins 3, 4 (dir1, dir2)  
+   - PWM speed → pin 5  
+   - Motor power → driver 5V or external supply  
+   - Motor outputs → DC motor  
+
+3. LEDs 
+   - Red LED anode → pin 11 through 220Ω resistor, cathode → GND  
+   - Yellow LED anode → pin 9 through 220Ω resistor, cathode → GND  
+   - Green LED anode → pin 6 through 220Ω resistor, cathode → GND  
+
+How it works:
+- Joystick X-axis controls motor speed (0–255 PWM).  
+- Motor always rotates in one direction (dir1 HIGH, dir2 LOW).  
+- Red LED = low speed, Yellow LED = medium speed, Green LED = high speed.  
+- Serial Monitor prints the motor speed every 200ms.  
+
+I had a lot of fun with this easy project so enjoy it :)
+
