@@ -1,0 +1,67 @@
+LCD Hello Grosso Maximus
+
+This project displays a message on a 16x2 LCD using the LiquidCrystal library.
+
+This project helps beginners learn:
+- How to interface a 16x2 LCD with Arduino  
+- Using the `LiquidCrystal` library  
+- Positioning text on the LCD with `setCursor()`  
+
+
+
+ Arduino Code
+
+```cpp
+#include <LiquidCrystal.h>
+
+// LCD pins: RS, EN, D4, D5, D6, D7
+int rs = 7;
+int en = 8;
+int d4 = 9;
+int d5 = 10;
+int d6 = 11;
+int d7 = 12;
+
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void setup() {
+  lcd.begin(16, 2); // Initialize a 16x2 LCD
+}
+
+void loop() {
+  lcd.setCursor(0, 0); // Column 0, Row 0
+  lcd.print("Insert your text");
+}
+```
+
+---
+
+## Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 16x2 LCD  
+- 10kΩ potentiometer (for LCD contrast)  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. **LCD pins**  
+   - RS → pin 7  
+   - EN → pin 8  
+   - D4 → pin 9  
+   - D5 → pin 10  
+   - D6 → pin 11  
+   - D7 → pin 12  
+   - VSS → GND  
+   - VDD → 5V  
+   - VO → wiper of 10kΩ potentiometer (for contrast)  
+   - RW → GND  
+   - A → 5V (backlight)  
+   - K → GND (backlight)  
+
+How it works:
+- The LCD is initialized to 16 columns and 2 rows.  
+- `setCursor(0,0)` sets the cursor to the first column of the first row.  
+- The text `"Hello Grosso Maximus"` is displayed continuously.  
+
