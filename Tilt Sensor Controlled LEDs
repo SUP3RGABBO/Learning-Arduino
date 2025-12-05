@@ -1,0 +1,70 @@
+Tilt Sensor Controlled LEDs
+
+This project uses a tilt sensor to control two LEDs.  
+Depending on the tilt sensor state, either the green LED or the red LED turns on.
+
+This project helps beginners learn:
+- Reading digital input from a tilt sensor  
+- Controlling LEDs with `digitalWrite()`  
+- Using Serial Monitor for debugging  
+
+---
+
+ Arduino Code
+
+```cpp
+int tiltVal;
+int tiltPin = 2;
+int redLed = 11;
+int greenLed = 9;
+
+void setup() {
+  pinMode(tiltPin, INPUT);
+  digitalWrite(tiltPin, HIGH); // Enable internal pull-up resistor
+  Serial.begin(9600);
+  pinMode(greenLed, OUTPUT);
+  pinMode(redLed, OUTPUT);
+}
+
+void loop() {
+  tiltVal = digitalRead(tiltPin);
+  Serial.println(tiltVal);
+
+  if (tiltVal == 1) {
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(redLed, LOW);
+  }
+
+  if (tiltVal == 0) {
+    digitalWrite(greenLed, LOW);
+    digitalWrite(redLed, HIGH);
+  }
+}
+```
+
+---
+
+Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 1 × Tilt sensor  
+- 2 × LEDs (green and red)  
+- 2 × 220Ω resistors  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. Tilt sensor
+   - One leg → pin 2  
+   - Other leg → GND (internal pull-up used in code)  
+
+2.LEDs  
+   - Green LED anode → pin 9 through 220Ω resistor, cathode → GND  
+   - Red LED anode → pin 11 through 220Ω resistor, cathode → GND  
+
+How it works:
+- The tilt sensor reads HIGH (1) when upright and LOW (0) when tilted.  
+- When upright, the green LED turns on; when tilted, the red LED turns on.  
+- Serial Monitor prints the tilt sensor state for monitoring.  
+
