@@ -1,0 +1,38 @@
+
+  LED PWM Brightness Control
+
+  Description:
+  This code controls the brightness of a single LED using PWM. 
+  The LED gradually switches between four brightness levels:
+  off, low, medium, and high. Each level is kept for a fixed amount of time.
+
+  How to build it:
+  - Connect a red LED to pin 9 through a 220Ω resistor.
+  - Connect the LED's cathode to the GND pin.
+  - Upload the code to your Arduino board.
+
+
+int redLed = 9;
+int off = 0;
+int low = 50;
+int medium = 100;
+int high = 220;
+int time = 3000;
+
+void setup() {
+  pinMode(redLed, OUTPUT);
+}
+
+void loop() {
+  analogWrite(redLed, off);
+  delay(time);
+
+  analogWrite(redLed, low);
+  delay(time);
+
+  analogWrite(redLed, medium);
+  delay(time);
+
+  analogWrite(redLed, high);
+  delay(time);
+}
