@@ -1,0 +1,114 @@
+Serial Controlled RGB LED with Multiple Colors
+
+This project allows the user to control an RGB LED (or three separate LEDs) via the Serial Monitor.  
+You can type different color names to turn on the corresponding color using `digitalWrite` or `analogWrite` for mixed colors.  
+
+It is useful for beginners to learn:
+- Reading strings from Serial input  
+- Controlling LEDs with `digitalWrite` and `analogWrite`  
+- Creating custom colors with PWM  
+- Using conditional statements  
+
+---
+ Arduino Code
+
+```cpp
+int redPin = 6;
+int greenPin = 9;
+int bluePin = 10;
+String myColor;
+String msg = "What color do you want?";
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+}
+
+void loop() {
+  Serial.println(msg);
+  while (Serial.available() == 0) {}
+
+  myColor = Serial.readString();
+
+  if (myColor == "red") {
+    digitalWrite(redPin, HIGH);
+    digitalWrite(greenPin, LOW);
+    digitalWrite(bluePin, LOW);
+  }
+
+  if (myColor == "green") {
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenPin, HIGH);
+    digitalWrite(bluePin, LOW);
+  }
+
+  if (myColor == "blue") {
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenPin, LOW);
+    digitalWrite(bluePin, HIGH);
+  }
+
+  if (myColor == "off") {
+    digitalWrite(redPin, LOW);
+    digitalWrite(greenPin, LOW);
+    digitalWrite(bluePin, LOW);
+  }
+
+  if (myColor == "acqua") {
+    digitalWrite(redPin, LOW);
+    analogWrite(greenPin, 220);
+    analogWrite(bluePin, 80);
+  }
+
+  if (myColor == "brown") {
+    analogWrite(redPin, 165);
+    analogWrite(greenPin, 42);
+    analogWrite(bluePin, 42);
+  }
+
+  if (myColor == "orange") {
+    analogWrite(redPin, 255);
+    analogWrite(greenPin, 117);
+    analogWrite(bluePin, 24);
+  }
+
+  if (myColor == "purple") {
+    analogWrite(redPin, 128);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 128);
+  }
+
+  if (myColor == "favorite") {
+    analogWrite(redPin, 34);
+    analogWrite(greenPin, 139);
+    analogWrite(bluePin, 34);
+  }
+}
+```
+
+---
+
+ Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 3 × LEDs (red, green, blue) **or an RGB LED**  
+- 3 × 220Ω resistors  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+- Red LED anode → pin 6 through 220Ω resistor, cathode → GND  
+- Green LED anode → pin 9 through 220Ω resistor, cathode → GND  
+- Blue LED anode → pin 10 through 220Ω resistor, cathode → GND  
+
+If using an RGB LED, connect the common cathode to GND and the three anodes to the pins above with resistors.
+
+How it works:
+1. Open the Serial Monitor at 9600 baud.  
+2. Type a color name (e.g., "red", "green", "blue", "acqua", "brown", "orange", "purple", "favorite") or "off".  
+3. The LED(s) will light up with the chosen color.  
+4. The code uses `digitalWrite` for single colors and `analogWrite` for custom mixed colors.  
+
