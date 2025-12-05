@@ -1,0 +1,67 @@
+Stepper Motor Controlled by Button
+
+This project controls a stepper motor using a push button.  
+Each press of the button rotates the stepper motor one full revolution in a specified direction.
+
+This project helps beginners learn:
+- Controlling a stepper motor with the Stepper library  
+- Reading button input to trigger motor movement  
+- Using Serial Monitor for debugging  
+
+
+
+ Arduino Code
+
+```cpp
+#include <Stepper.h>
+
+int stepsPerRevolution = 2048;
+int stepSpeed = 3;
+
+// Pins for the stepper motor (IN1, IN2, IN3, IN4)
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+
+int buttonPin = 3;
+int buttonVal;
+int newVal;
+int oldVal = 1;
+int dt = 500;
+
+void setup() {
+  Serial.begin(9600);
+  myStepper.setSpeed(stepSpeed);
+
+  pinMode(buttonPin, INPUT_PULLUP); // Use internal pull-up resistor
+}
+
+void loop() {
+  newVal = digitalRead(buttonPin);
+  Serial.println(newVal);
+  delay(dt);
+
+  if (newVal == 0 && oldVal == 1) { // Detect button press
+    myStepper.step(-stepsPerRevolution); // Rotate one full revolution
+  }
+
+  oldVal = newVal; // Update oldVal for next loop
+}
+
+Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 28BYJ-48 stepper motor with ULN2003 driver module  
+- Push button  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. **Stepper motor** → Connect IN1–IN4 of ULN2003 driver to pins 8, 9, 10, 11 on Arduino.  
+2. **Stepper power** → Connect 5V and GND from Arduino to ULN2003 module.  
+3. **Push button** → One leg → pin 3, other leg → GND (internal pull-up used in code).  
+
+How it works:
+- When the button is pressed (goes LOW), the motor rotates one full revolution in the negative direction.  
+- The Serial Monitor prints the button state for debugging.  
+- `INPUT_PULLUP` is used so the button reads HIGH when not pressed and LOW when pressed.  
+
