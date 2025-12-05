@@ -1,0 +1,75 @@
+Analog Sensor Controlled RGB LED (Red & Blue)
+
+This project uses an analog sensor to control the brightness of two LEDs (red and blue) simultaneously.
+The voltage read from the sensor is mapped to the LED brightness to create a dynamic color effect.
+
+This project helps beginners learn:
+-Reading analog sensor values with analogRead
+-Mapping sensor voltage to LED brightness
+-Controlling LED brightness with analogWrite
+-Using Serial Monitor for debugging
+
+Arduino Code
+float intensity;
+int intPin = A1;
+int redPin = 9;
+int bluePin = 11;
+float volt;
+int dt = 150;
+
+float redBright;
+float blueBright;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+}
+
+void loop() {
+  // Read analog sensor value
+  intensity = analogRead(intPin);
+  volt = (5.0 / 1023.0) * intensity;
+  Serial.println(volt);
+  delay(dt);
+
+  // Map sensor voltage to LED brightness
+  redBright = 51.0 * volt;
+  blueBright = (-51.0 * volt) + 255.0;
+
+  // Set LED brightness
+  analogWrite(redPin, redBright);
+  analogWrite(bluePin, blueBright);
+}
+
+Circuit Setup
+Components needed:
+Arduino Uno (or compatible board)
+1 × Analog sensor (e.g., potentiometer or light sensor)
+1 × Red LED
+1 × Blue LED
+2 × 220Ω resistors
+Breadboard
+Jumper wires
+
+Wiring Instructions:
+
+Analog Sensor
+Signal → A1
+VCC → 5V
+GND → GND
+
+Red LED
+Anode → pin 9 through 220Ω resistor
+Cathode → GND
+
+Blue LED
+Anode → pin 11 through 220Ω resistor
+Cathode → GND
+
+How it works:
+The analog sensor voltage is read via analogRead.
+The red LED brightness increases with the sensor voltage, while the blue LED decreases.
+analogWrite adjusts LED brightness smoothly.
+
+Serial Monitor prints the sensor voltage for debugging.
