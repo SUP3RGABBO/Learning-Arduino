@@ -1,0 +1,65 @@
+DHT11 Temperature and Humidity Sensor
+
+This project reads temperature and humidity using a DHT11 sensor and prints the values to the Serial Monitor.
+It helps beginners understand how to interface environmental sensors with Arduino.
+
+This project helps beginners learn:
+-Using the DHT11 sensor with Arduino
+-Reading temperature and humidity values
+-Using the DHT library
+-Displaying sensor data via Serial Monitor
+
+Arduino Code
+#include <DHT.h>
+#include <DHT_U.h>
+
+#define Type DHT11
+int sensePin = 2;
+float Temperature;
+float Humidity;
+int dts = 500;
+int dt = 1000;
+
+DHT HT(sensePin, Type);
+
+void setup() {
+  Serial.begin(9600);
+  HT.begin();
+  delay(dts);
+}
+
+void loop() {
+  // Read temperature and humidity
+  Temperature = HT.readTemperature();
+  Humidity = HT.readHumidity();
+
+  // Print values to Serial Monitor
+  Serial.print(Temperature);
+  Serial.print("°    ");
+  Serial.print(Humidity);
+  Serial.println("%");
+
+  delay(dt);
+}
+
+Circuit Setup
+
+Components needed:
+Arduino Uno (or compatible board)
+1 × DHT11 sensor
+1 × 10kΩ resistor (if required by your DHT11 module)
+Breadboard
+Jumper wires
+
+Wiring Instructions:
+
+DHT11 Sensor
+Data → pin 2
+VCC → 5V
+GND → GND
+Pull-up resistor (10kΩ) between VCC and Data if using a bare DHT11
+
+How it works:
+The DHT11 sensor measures temperature and humidity.
+The DHT library handles communication with the sensor.
+Serial Monitor prints temperature in Celsius and humidity percentage every second.
