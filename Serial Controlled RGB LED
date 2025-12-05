@@ -1,0 +1,86 @@
+Serial Controlled RGB LED
+
+This project allows the user to control an RGB LED using the Serial Monitor.  
+The user can type "red", "green", "blue", or "OFF" to turn on a specific LED or turn them all off.  
+
+This project helps beginners learn:
+- Reading strings from Serial input  
+- Controlling multiple LEDs with conditional statements  
+- Using `digitalWrite()` to turn LEDs on/off  
+
+
+
+Arduino Code
+
+```cpp
+String Colour;
+String msg = "What colour do you want to turn on? If you want nothing turned on write OFF";
+String msg2 = "Well, ";
+String msg3 = " LED has been turned on";
+
+int redLed = 2;
+int greenLed = 8;
+int blueLed = 13;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(blueLed, OUTPUT);
+}
+
+void loop() {
+  Serial.println(msg);
+  while (Serial.available() == 0) {}
+
+  Colour = Serial.readString();
+  Serial.print(msg2);
+  Serial.print(Colour);
+  Serial.println(msg3);
+
+  if (Colour == "red") {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(blueLed, LOW);
+  }
+
+  if (Colour == "green") {
+    digitalWrite(redLed, LOW);
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(blueLed, LOW);
+  }
+
+  if (Colour == "blue") {
+    digitalWrite(redLed, LOW);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(blueLed, HIGH);
+  }
+
+  if (Colour == "OFF") {
+    digitalWrite(redLed, LOW);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(blueLed, LOW);
+  }
+}
+
+
+ Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 3 × LEDs (red, green, blue)  
+- 3 × 220Ω resistors  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+- Red LED anode → pin 2 through 220Ω resistor, cathode → GND  
+- Green LED anode → pin 8 through 220Ω resistor, cathode → GND  
+- Blue LED anode → pin 13 through 220Ω resistor, cathode → GND  
+
+How it works:
+1. Open the Serial Monitor at 9600 baud.  
+2. Type a colour: "red", "green", "blue", or "OFF".  
+3. The corresponding LED will turn on, and all others will turn off.  
+4. "OFF" turns all LEDs off.  
+
