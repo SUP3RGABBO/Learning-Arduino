@@ -1,0 +1,93 @@
+Ultrasonic Sensor Controlled Servo
+
+This project uses an ultrasonic sensor to control a servo motor. The servo position is mapped based on the distance measured by the sensor, and the travel time is printed to the Serial Monitor.
+
+This project helps beginners learn:
+
+Reading an ultrasonic sensor with pulseIn
+
+Mapping sensor values to servo positions
+
+Controlling a servo motor with the Servo library
+
+Using Serial Monitor for debugging
+
+Arduino Code
+#include <Servo.h>
+
+// Ultrasonic sensor pins
+int trigPin = 12;
+int echoPin = 11;
+int travelTime;
+
+// Servo
+int servoPin = 5;
+int position;
+Servo myServo;
+
+void setup() {
+  // Initialize ultrasonic sensor pins
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  // Attach servo
+  myServo.attach(servoPin);
+
+  // Start serial communication
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Trigger ultrasonic sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Read pulse duration
+  travelTime = pulseIn(echoPin, HIGH);
+  delay(25);
+  Serial.println(travelTime);
+
+  // Map travel time to servo position
+  position = (165.0 * travelTime - 66000.0) / 3400.0;
+  myServo.write(position);
+
+  // Safety limits for servo
+  if (travelTime > 3800 || travelTime < 400) {
+    myServo.write(90); // Default middle position
+  }
+}
+
+Circuit Setup
+
+Components needed:
+
+Arduino Uno (or compatible board)
+
+1 × Ultrasonic sensor (HC-SR04 or similar)
+
+1 × Servo motor
+
+Breadboard
+
+Jumper wires
+
+Wiring Instructions:
+Ultrasonic Sensor 
+Trig → pin 12
+Echo → pin 11
+VCC → 5V
+GND → GND
+
+Servo
+Signal → pin 5
+Power → 5V
+GND → GND
+
+How it works:
+The ultrasonic sensor measures the distance to an object.
+The servo position is calculated based on the travel time of the ultrasonic pulse.
+Safety checks keep the servo at 90° if the object is too close or too far.
+The Serial Monitor prints the travel time of the pulse for debugging.
