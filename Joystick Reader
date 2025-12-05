@@ -1,0 +1,65 @@
+Joystick Reader
+
+This project reads the X and Y analog values and the switch state of a joystick module using Arduino.  
+It prints the readings to the Serial Monitor.
+
+This project helps beginners learn:
+- Reading analog inputs from a joystick  
+- Reading digital input from the joystick button  
+- Using `Serial.print()` to monitor values  
+
+
+
+ Arduino Code
+
+```cpp
+int Xpin = A0;
+int Ypin = A1;
+int Spin = 2;
+int Xval;
+int Yval;
+int Sval;
+int dt = 200;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(Xpin, INPUT);
+  pinMode(Ypin, INPUT);
+  pinMode(Spin, INPUT);
+  digitalWrite(Spin, HIGH); // Enable internal pull-up resistor
+}
+
+void loop() {
+  Xval = analogRead(Xpin);
+  Yval = analogRead(Ypin);
+  Sval = digitalRead(Spin);
+  delay(dt);
+
+  Serial.print("X Value = ");
+  Serial.print(Xval);
+  Serial.print("  Y Value = ");
+  Serial.print(Yval);
+  Serial.print("  Switch State is  ");
+  Serial.println(Sval);
+}
+```
+
+---
+
+Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 1 × Joystick module  
+- Jumper wires  
+
+Wiring Instructions:
+- Joystick X-axis → A0  
+- Joystick Y-axis → A1  
+- Joystick switch → pin 2  
+- Connect VCC → 5V and GND → GND  
+How it works:
+- The X and Y axes produce analog values from 0 to 1023 depending on the joystick position.  
+- The switch reads HIGH (1) or LOW (0) when pressed.  
+- Serial Monitor prints X, Y, and switch readings every 200ms.  
+
