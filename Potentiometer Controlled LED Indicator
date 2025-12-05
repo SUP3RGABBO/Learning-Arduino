@@ -1,0 +1,93 @@
+# Potentiometer Controlled LED Indicator
+
+This project reads a potentiometer value using an analog pin and lights up three LEDs (red, green, and yellow) based on the voltage read.  
+The red LED turns on when the voltage is high, green when the voltage is low, and yellow for intermediate voltages.
+
+This project is useful for beginners to learn:
+- Analog input reading with `analogRead()`  
+- Converting analog values to voltage  
+- Conditional control of LEDs  
+- Using `Serial.print()` for debugging  
+
+---
+
+## Arduino Code
+
+```cpp
+int myPin = A2;
+int readVal;
+float V2;
+int time = 500;
+int redPin = 9;
+int greenPin = 6;
+int yellowPin = 3;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(myPin, INPUT);
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(yellowPin, OUTPUT);
+}
+
+void loop() {
+  readVal = analogRead(myPin);
+  V2 = (5.0 / 1023.0) * readVal;
+  Serial.print("Potentiometer Voltage is ");
+  Serial.println(V2);
+
+  if (V2 > 4.0) {
+    digitalWrite(redPin, HIGH);
+  }
+  if (V2 < 4.0) {
+    digitalWrite(redPin, LOW);
+  }
+
+  if (V2 < 3.0) {
+    digitalWrite(greenPin, HIGH);
+  }
+  if (V2 > 3.0) {
+    digitalWrite(greenPin, LOW);
+  }
+
+  if (V2 > 2.0) {
+    digitalWrite(yellowPin, HIGH);
+  }
+  if (V2 < 2.0) {
+    digitalWrite(yellowPin, LOW);
+  }
+
+  delay(time); 
+}
+```
+
+---
+
+## Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 1 × potentiometer  
+- 3 × LEDs (red, green, yellow)  
+- 3 × 220Ω resistors  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+
+1. **Potentiometer**  
+   - Connect the two outer pins to 5V and GND  
+   - Connect the middle pin to analog pin **A2**  
+
+2. **LEDs**  
+   - Red LED anode → pin 9 through 220Ω resistor, cathode → GND  
+   - Green LED anode → pin 6 through 220Ω resistor, cathode → GND  
+   - Yellow LED anode → pin 3 through 220Ω resistor, cathode → GND  
+
+Circuit behavior:
+- Turning the potentiometer will change the voltage read at A2  
+- The LEDs light up based on voltage thresholds:  
+  - Red: V > 4.0V  
+  - Green: V < 3.0V  
+  - Yellow: V > 2.0V (intermediate voltage)
+
