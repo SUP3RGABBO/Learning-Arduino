@@ -1,0 +1,122 @@
+Ultrasonic Distance Measurement with LCD and Buzzer
+
+This project measures distance using an ultrasonic sensor and displays the value on a 16×2 LCD.
+A buzzer plays a simple ascending scale melody each time the measurement is taken.
+
+This project helps beginners learn:
+-Using an ultrasonic sensor (HC-SR04) with Arduino
+-Measuring distance with pulseIn
+-Displaying values on a 16×2 LCD using LiquidCrystal
+-Generating tones with a buzzer using tone
+-Combining sensors, display, and sound in a single project
+
+Arduino Code
+#include <LiquidCrystal.h>
+
+// LCD pins
+int rs = 7;
+int en = 8;
+int d4 = 9;
+int d5 = 10;
+int d6 = 11;
+int d7 = 12;
+
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+// Ultrasonic sensor pins
+int trigPin = 5;
+int echoPin = 3;
+float traveltime;
+float distance;
+
+// Buzzer pin
+int buzzPin = 2;
+
+int dts = 500;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzPin, OUTPUT);
+
+  lcd.begin(16, 2);
+  delay(dts);
+}
+
+void loop() {
+  // Trigger ultrasonic sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  traveltime = pulseIn(echoPin, HIGH);
+  distance = (traveltime / 2) / 29.1; // Convert to cm
+  Serial.println(distance);
+
+  // Display on LCD
+  lcd.setCursor(0, 0);
+  lcd.print("Distance is about");
+  lcd.setCursor(0, 1);
+  lcd.print(distance);
+  lcd.setCursor(9, 1);
+  lcd.print("cm");
+
+  delay(10000); // Wait 10 seconds
+
+  // Play ascending scale on buzzer
+  tone(buzzPin, 262, 200); // DO
+  delay(200);
+  tone(buzzPin, 294, 200); // RE
+  delay(200);
+  tone(buzzPin, 330, 200); // MI
+  delay(200);
+  tone(buzzPin, 349, 200); // FA
+  delay(200);
+  tone(buzzPin, 392, 200); // SOL
+  delay(200);
+  tone(buzzPin, 440, 200); // LA
+  delay(200);
+  tone(buzzPin, 494, 200); // SI
+  delay(200);
+  tone(buzzPin, 523, 400); // High DO
+}
+
+Circuit Setup
+
+Components needed:
+Arduino Uno (or compatible board)
+1 × HC-SR04 ultrasonic sensor
+1 × 16×2 LCD
+1 × Buzzer
+Breadboard
+Jumper wires
+
+Wiring Instructions:
+
+Ultrasonic Sensor
+Trig → pin 5
+Echo → pin 3
+VCC → 5V
+GND → GND
+
+LCD
+RS → pin 7
+EN 
+D4 → pin 9
+D5 → pin 10
+D6 → pin 11
+D7 → pin 12
+VCC → 5V
+GND → GND
+
+Buzzer
+Positive → pin 2
+Negative → GND
+
+How it works:
+The ultrasonic sensor measures the distance to an object using sound waves.
+Distance is calculated and displayed on the LCD every 10 seconds.
+After each reading, the buzzer plays an ascending musical scale to indicate the measurement was taken.
