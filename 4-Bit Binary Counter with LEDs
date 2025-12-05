@@ -1,0 +1,187 @@
+# 4-Bit Binary Counter with LEDs (Manual Implementation)
+
+This project shows a simple 4-bit binary counter using four LEDs connected to digital pins 2, 7, 8, and 12 on an Arduino board.  
+The program manually writes each binary combination from 0 to 15, turning LEDs on or off according to the corresponding bit value.
+
+This exercise helps beginners understand:
+- How digital pins control LEDs
+- How binary numbers work
+- How to structure repetitive LED patterns
+- The basics of timing with `delay()`
+
+---
+
+## Arduino Code
+
+```cpp
+int tempo = 4000;
+
+void setup() {
+  pinMode(12, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(2, OUTPUT);
+}
+
+void loop() {
+
+  // 0
+  digitalWrite(2, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 1
+  digitalWrite(2, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 2
+  digitalWrite(2, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 3
+  digitalWrite(2, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 4
+  digitalWrite(2, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 5
+  digitalWrite(2, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 6
+  digitalWrite(2, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 7
+  digitalWrite(2, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 8
+  digitalWrite(2, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 9
+  digitalWrite(2, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 10
+  digitalWrite(2, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 11
+  digitalWrite(2, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 12
+  digitalWrite(2, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 13
+  digitalWrite(2, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+
+  // 14
+  digitalWrite(2, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(12, LOW);
+  delay(tempo);
+
+  // 15
+  digitalWrite(2, HIGH);
+  digitalWrite(7, HIGH);
+ digitalWrite(8, HIGH);
+  digitalWrite(12, HIGH);
+  delay(tempo);
+}
+```
+
+---
+
+## Circuit Setup
+
+Components required:
+- Arduino Uno (or compatible board)
+- 4 LEDs
+- 4 × 220Ω resistors
+- Breadboard
+- Jumper wires
+
+### Wiring Instructions
+Each LED must be connected as follows:
+
+- Anode (long leg) → Arduino pin (2, 7, 8, or 12) through a 220Ω resistor  
+- Cathode (short leg) → GND  
+
+Text-based wiring diagram:
+
+```
+Pin 12 ──[220Ω]──►|── GND
+Pin 8  ──[220Ω]──►|── GND
+Pin 7  ──[220Ω]──►|── GND
+Pin 2  ──[220Ω]──►|── GND
+```
+
+---
+
+## How It Works
+
+The sketch manually cycles through all binary numbers from 0 to 15 (0000 to 1111).  
+Each LED represents one bit of a 4-bit binary number:
+- Pin 2 = Most significant bit (MSB)
+- Pin 7 = Bit 2
+- Pin 8 = Bit 1
+- Pin 12 = Least significant bit (LSB)
+
+Every 4 seconds, the next binary combination is shown on the LEDs.
+
+---
+
+## Notes
+
+This project is meant to help beginners understand how binary numbers can be represented using LEDs and digital pins.  
+The logic is intentionally written in a simple, repetitive way to make the pattern easy to study.
+
