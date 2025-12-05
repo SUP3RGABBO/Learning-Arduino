@@ -1,0 +1,56 @@
+Serial Input LED Blinker
+
+This project allows the user to control the number of times an LED blinks by entering a number through the Serial Monitor.  
+It is a simple exercise for beginners to practice:
+- Reading input from Serial  
+- Using loops to control LEDs  
+- Timing with `delay()`  
+
+---
+
+Arduino Code
+
+```cpp
+int numBlinks;
+String msg = "How many blinks do you want:";
+int j;
+int bt = 500;
+int redPin = 12;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(redPin, OUTPUT);
+}
+
+void loop() {
+  Serial.println(msg);
+  while (Serial.available() == 0) {}
+
+  numBlinks = Serial.parseInt();
+  for (j = 1; j <= numBlinks; j = j + 1) {
+    digitalWrite(redPin, HIGH);
+    delay(bt);
+    digitalWrite(redPin, LOW);
+    delay(bt);
+  }
+}
+
+
+Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 1 × LED (red)  
+- 1 × 220Ω resistor  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+- LED anode (long leg) → Arduino pin **12** through 220Ω resistor  
+- LED cathode (short leg) → GND  
+
+How it works:
+1. Open the Serial Monitor at 9600 baud.  
+2. Enter the number of blinks you want.  
+3. The LED on pin 12 will blink the specified number of times with 500ms intervals.  
+
