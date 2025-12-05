@@ -1,0 +1,84 @@
+Mini Robotic Arm Base
+
+This project is a basic mini robotic arm controlled via Arduino.  
+It uses a stepper motor to rotate the base and a servo motor to lift or lower the arm.  
+The user can input the desired angles for both motors through the Serial Monitor.  
+
+This project helps beginners learn:
+- Controlling a stepper motor using the Stepper library  
+- Controlling a servo motor using the Servo library  
+- Reading numeric input from the Serial Monitor  
+- Converting rotation degrees to stepper motor steps  
+- Building a simple robotic arm mechanism  
+
+---
+
+Arduino Code
+
+```cpp
+#include <Stepper.h>
+#include <Servo.h>
+
+// Stepper motor for base rotation
+int stepsPerRevolution = 2048;
+int motSpeed = 3;
+Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);
+int brotation;
+int bsteps;
+
+// Servo motor for arm lifting
+int servoPin = 5;
+Servo myServo;
+int urotation;
+
+void setup() {
+  Serial.begin(9600);
+  myStepper.setSpeed(motSpeed);
+  myServo.attach(servoPin);
+}
+
+void loop() {
+  // Rotate base
+  Serial.print("BOTTOM Rotation (degrees): ");
+  while (Serial.available() == 0) {}
+  brotation = Serial.parseInt();
+  bsteps = (brotation * 2048.0) / 360.0; // Convert degrees to steps
+  myStepper.step(bsteps);
+
+  // Lift or lower arm
+  Serial.print("UP Rotation (degrees): ");
+  while (Serial.available() == 0) {}
+  urotation = Serial.parseInt();
+  myServo.write(urotation);
+}
+
+
+
+
+ Circuit Setup
+
+Components needed:
+- Arduino Uno (or compatible board)  
+- 28BYJ-48 Stepper motor with ULN2003 driver module (for base rotation)  
+- Servo motor (e.g., SG90) for arm lifting  
+- Mini robotic arm structure (homemade or kit)  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. **Stepper motor** → ULN2003 driver IN1–IN4 → pins 8, 10, 9, 11  
+   - Power → 5V, GND → GND  
+2. **Servo motor** → Signal → pin 5  
+   - VCC → 5V, GND → GND  
+
+How it works:
+- The user inputs the desired base rotation angle via Serial Monitor. The stepper motor rotates accordingly.  
+- Then, the user inputs the desired arm lift angle. The servo rotates the arm to that position.  
+- This allows simple control of the robotic arm with two degrees of freedom.  
+
+Next steps for expansion:
+- Add another servo for the arm’s wrist or gripper  
+- Add a gripper controlled by a servo or small motor  
+- Integrate potentiometers or joystick for manual control  
+- Build a small dashboard to control the arm via PC or web interface  
+
