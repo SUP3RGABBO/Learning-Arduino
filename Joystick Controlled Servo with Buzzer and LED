@@ -1,0 +1,105 @@
+Joystick Controlled Servo with Buzzer and LED
+
+This project uses a joystick to control a servo motor, while a buzzer and an LED react to the joystick button.  
+It prints the button state to the Serial Monitor and maps the joystick X-axis to servo movement.
+
+This project helps beginners learn:
+- Reading analog joystick input  
+- Reading joystick button state  
+- Controlling a servo motor with the Servo library  
+- Using `analogWrite` for buzzer control  
+- Using `digitalWrite` to turn on/off an LED  
+- Using Serial Monitor for debugging  
+
+
+Arduino Code
+
+```cpp
+#include <Servo.h>
+
+int Xpin = A0;
+int Ypin = A1;
+int Spin = 2;
+int Xval;
+int Yval;
+int Sval;
+int dt = 10;
+int WVx;
+int WVy;
+int servoPin = 9;
+int buzzPin = 11;
+int ledPin = 5;
+
+Servo myServo;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(Xpin, INPUT);
+  pinMode(Ypin, INPUT);
+  pinMode(Spin, INPUT);
+  pinMode(buzzPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+
+  digitalWrite(Spin, HIGH); // Enable internal pull-up
+  myServo.attach(servoPin);
+}
+
+void loop() {
+  Sval = digitalRead(Spin);
+  Serial.println(Sval);
+  delay(dt);
+
+  Xval = analogRead(Xpin);
+  WVx = (165.0 / 1023.0) * Xval; // Map X value to servo angle
+  myServo.write(WVx);
+
+  Yval = analogRead(Ypin);
+
+  if (Sval == 0) {
+    analogWrite(buzzPin, 50);
+    digitalWrite(ledPin, HIGH);
+  } else {
+    analogWrite(buzzPin, 0);
+    digitalWrite(ledPin, LOW);
+  }
+}
+
+
+ Circuit Setup
+
+**Components needed:**
+- Arduino Uno (or compatible board)  
+- 1 × Joystick module  
+- 1 × Servo motor  
+- 1 × Buzzer  
+- 1 × LED  
+- 1 × 220Ω resistor (for LED)  
+- Breadboard  
+- Jumper wires  
+
+Wiring Instructions:
+1. **Joystick**  
+   - X-axis → A0  
+   - Y-axis → A1  
+   - Switch → pin 2  
+   - VCC → 5V  
+   - GND → GND  
+
+2. Servo  
+   - Signal → pin 9  
+   - Power → 5V  
+   - GND → GND  
+
+3. Buzzer 
+   - Positive → pin 11  
+   - Negative → GND  
+
+4. LED  
+   - Anode → pin 5 through 220Ω resistor  
+   - Cathode → GND  
+
+How it works:
+- The joystick X-axis controls the servo position (0°–165°).  
+- The joystick button triggers the buzzer (PWM at 50) and turns on the LED when pressed.  
+- Serial Monitor prints the button state every 10ms.  
+
